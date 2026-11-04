@@ -1,0 +1,13 @@
+Exercise 10 - Get Set Ready!
+
+Implemented a Redis todo counter.
+
+1. When a todo is created through POST /todos, the application reads the current added_todos value from Redis and increments it by one.
+2. Added GET /statistics to return the number of created todos as JSON.
+
+Testing:
+- GET /statistics initially returned 9001.
+- Created a test todo through POST /todos.
+- GET /statistics then returned 9002.
+
+Result: Redis counter successfully increments when a todo is created.
