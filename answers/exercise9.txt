@@ -1,0 +1,52 @@
+Full Stack Open - Part 12
+Exercise 9: Set up Redis for the project
+
+1. Configured Redis in docker-compose.dev.yml.
+
+Redis configuration:
+- Image: redis:latest
+- Command: redis-server --appendonly yes
+- Port mapping: 6379:6379
+- Persistent volume: redis-data:/data
+
+2. Started Redis:
+
+docker compose -f .\todo-app\todo-backend\docker-compose.dev.yml up -d redis
+
+Result:
+Container todo-backend-redis-1 Started.
+
+3. Verified Redis container:
+
+docker ps
+
+Result:
+Redis container running on port 6379.
+
+4. Tested Redis connectivity:
+
+Test-NetConnection localhost -Port 6379
+
+Result:
+TcpTestSucceeded: True
+
+docker exec todo-backend-redis-1 redis-cli ping
+
+Result:
+PONG
+
+5. Configured backend environment variables:
+
+$env:REDIS_URL = "redis://127.0.0.1:6379"
+
+$env:MONGO_URL = "mongodb://the_username:the_password@127.0.0.1:27017/the_database?authSource=the_database"
+
+6. Started Express backend:
+
+npm start
+
+Output:
+Connected to Redis
+
+Result:
+Redis was successfully configured and started using Docker Compose. The Express backend running outside Docker successfully connected to Redis.
