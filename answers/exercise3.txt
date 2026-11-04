@@ -1,0 +1,8 @@
+﻿PS> docker start -ai 90dcb2608ae2
+root@90dcb2608ae2:/# apt-get update
+root@90dcb2608ae2:/# apt-get install -y nano
+root@90dcb2608ae2:/# nano /usr/src/app/index.js
+root@90dcb2608ae2:/# cat /usr/src/app/index.js
+console.log('Hello World')
+root@90dcb2608ae2:/# exit
+exit

@@ -1,0 +1,18 @@
+$ docker start -i vigorous_perlman
+root@3d0feaefda7b:/# apt-get -y install curl
+root@3d0feaefda7b:/# curl -sL https://deb.nodesource.com/setup_24.x | bash
+root@3d0feaefda7b:/# apt install -y nodejs
+... (nodejs 24.22.2 installed) ...
+root@3d0feaefda7b:/# node /usr/src/app/index.js
+/usr/src/app/index.js:1
+cosole.log('Hello World')
+^
+ReferenceError: cosole is not defined
+Node.js v24.22.2
+root@3d0feaefda7b:/# sed -i "s/cosole.log/console.log/" /usr/src/app/index.js
+root@3d0feaefda7b:/# cat /usr/src/app/index.js
+console.log('Hello World')
+root@3d0feaefda7b:/# node /usr/src/app/index.js
+Hello World
+root@3d0feaefda7b:/# exit
+exit

@@ -1,0 +1,8 @@
+﻿PS> docker run -it ubuntu bash
+root@90dcb2608ae2:/# mkdir -p /usr/src/app
+root@90dcb2608ae2:/# touch /usr/src/app/index.js
+root@90dcb2608ae2:/# ls -l /usr/src/app
+total 0
+-rw-r--r-- 1 root root 0 Nov 4 06:57 index.js
+root@90dcb2608ae2:/# exit
+exit

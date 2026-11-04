@@ -1,0 +1,51 @@
+$ docker ps --filter name=exercise7-mongo --format "{{.Names}} {{.Status}} {{.Ports}}"
+exercise7-mongo Up About a minute 0.0.0.0:27017->27017/tcp, [::]:27017->27017/tcp
+
+$ docker exec -it exercise7-mongo mongosh -u root -p example --authenticationDatabase admin
+Current Mongosh Log ID: 6ae846e1c0ec22ca3a1fdb17
+Connecting to: mongodb://<credentials>@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&authSource=admin&appName=mongosh+2.14.0
+Using MongoDB: 8.3.13
+Using Mongosh: 2.14.0
+
+test> show dbs
+admin   100.00 KiB
+config  12.00 KiB
+local   72.00 KiB
+
+test> use the_database
+switched to db the_database
+
+the_database> db.createCollection("todos")
+{ ok: 1 }
+
+the_database> show collections
+todos
+
+the_database> db.todos.find({})
+
+
+the_database> db.todos.insertOne({ text: "Increase the number of tools in my tool belt", done: false })
+{
+  acknowledged: true,
+  insertedId: ObjectId('6ae846e1c0ec22ca3a1fdb18')
+}
+
+the_database> db.todos.find({})
+[
+  {
+    _id: ObjectId('6ae846e1c0ec22ca3a1fdb18'),
+    text: 'Increase the number of tools in my tool belt',
+    done: false
+  }
+]
+
+the_database> exit
+
+$ $env:MONGO_URL="mongodb://root:example@localhost:27017/the_database?authSource=admin"; $env:PORT="3001"; npm start
+> todo-express-backend@0.0.0 start
+> node ./bin/www
+
+GET /todos 200 18.247 ms - 103
+
+$ Invoke-RestMethod http://localhost:3001/todos
+{"_id":"6ae846e1c0ec22ca3a1fdb18","text":"Increase the number of tools in my tool belt","done":false}

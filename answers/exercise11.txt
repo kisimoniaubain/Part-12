@@ -1,0 +1,32 @@
+﻿$ docker exec todo-backend-redis-1 redis-cli KEYS "*"
+added_todos
+
+$ docker exec todo-backend-redis-1 redis-cli GET added_todos
+1
+
+$ docker exec todo-backend-redis-1 redis-cli SET added_todos 9001
+OK
+
+$ Invoke-RestMethod http://localhost:3000/statistics
+{"added_todos":9001}
+
+$ Invoke-RestMethod -Method Post -Uri http://localhost:3000/todos -ContentType application/json -Body '{"text":"Redis CLI test todo"}'
+{"text":"Redis CLI test todo","done":false,"_id":"6ae84b1df4fd1f7a867f0cce","__v":0}
+
+$ docker exec todo-backend-redis-1 redis-cli GET added_todos
+9002
+
+$ docker exec todo-backend-redis-1 redis-cli DEL added_todos
+1
+
+$ Invoke-RestMethod http://localhost:3000/statistics
+{"added_todos":0}
+
+$ Invoke-RestMethod -Method Post -Uri http://localhost:3000/todos -ContentType application/json -Body '{"text":"Redis CLI reset test todo"}'
+{"text":"Redis CLI reset test todo","done":false,"_id":"6ae84b1df4fd1f7a867f0cd0","__v":0}
+
+$ docker exec todo-backend-redis-1 redis-cli GET added_todos
+1
+
+$ Invoke-RestMethod http://localhost:3000/statistics
+{"added_todos":1}
