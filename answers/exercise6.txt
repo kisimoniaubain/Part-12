@@ -1,0 +1,22 @@
+Full Stack Open - Part 12
+Exercise 6: Docker Compose
+
+File: todo-app/todo-backend/docker-compose.yml
+
+Solution:
+
+services:
+  backend:
+    build: .
+    ports:
+      - "3000:3000"
+
+Verification:
+- docker compose config: successful
+- docker compose up --build -d: successful
+- Backend container started successfully.
+- Visit counter tested through http://localhost:3000/
+- Three GET / requests returned HTTP 200.
+- Docker Compose logs confirmed successful requests.
+
+Result: The Node.js backend runs successfully using Docker Compose.ckend runs successfully using Docker Compose.
