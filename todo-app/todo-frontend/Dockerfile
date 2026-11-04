@@ -1,14 +1,16 @@
-FROM node:24-alpine
+
+FROM node:22-alpine
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-RUN npm ci
+
+RUN npm install
 
 COPY . .
 
-ENV VITE_BACKEND_URL=http://localhost:8080/api
-RUN npm test
+ENV VITE_BACKEND_URL=http://localhost:3000
+
 RUN npm run build
 
 EXPOSE 4173

@@ -1,0 +1,13 @@
+Exercise 13: Todo application frontend
+
+1. Read the todo-frontend README.
+2. Started the frontend outside Docker using npm run dev.
+3. Set VITE_BACKEND_URL=http://localhost:3000.
+4. Verified that the frontend communicated with the backend.
+5. Created a Dockerfile for the frontend.
+6. Set VITE_BACKEND_URL before running npm run build.
+7. Built the todo-frontend Docker image.
+8. Started the frontend container on port 4173.
+9. Verified that todos loaded successfully from the backend running outside Docker.
+
+Result: Frontend successfully containerized and connected to the backend.
