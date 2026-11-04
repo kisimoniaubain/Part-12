@@ -1,0 +1,9 @@
+Exercise 14: Testing during the build process
+
+- Extracted the Todo component into Todo.jsx.
+- Created Todo.test.jsx with two component tests.
+- Tested rendering of incomplete todos and their actions.
+- Tested that completed todos do not show the Set as done button.
+- Added automatic cleanup between tests.
+- Updated the frontend Dockerfile to run npm test before npm run build.
+- Successfully built the Docker image with both test and build stages passing.
