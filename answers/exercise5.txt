@@ -1,0 +1,40 @@
+EXERCISE 5: CONTAINERIZING A NODE APPLICATION
+
+ANSWER: todo-backend/Dockerfile
+
+Dockerfile:
+
+FROM node:24-alpine
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm ci
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+
+
+TESTING RESULTS:
+
+1. Docker image built using:
+   docker build -t todo-backend .
+
+2. Container started using:
+   docker run -d --name todo-backend-test -p 3000:3000 todo-backend
+
+3. Tested root endpoint:
+   GET http://localhost:3000/
+   Result: HTTP 200
+
+4. Tested statistics endpoint:
+   GET http://localhost:3000/statistics
+   Result: HTTP 200
+
+5. Confirmed the visit counter returned a value.
+
+Conclusion: The todo-backend application was successfully containerized and tested.
