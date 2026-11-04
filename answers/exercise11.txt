@@ -1,32 +1,133 @@
-﻿$ docker exec todo-backend-redis-1 redis-cli KEYS "*"
-added_todos
+﻿# Exercise 11 - Redis CLI
 
-$ docker exec todo-backend-redis-1 redis-cli GET added_todos
-1
+## 1. Open Redis CLI
 
-$ docker exec todo-backend-redis-1 redis-cli SET added_todos 9001
+```powershell
+docker exec -it todo-backend-redis-1 redis-cli
+```
+
+## 2. Find Redis keys
+
+```redis
+KEYS *
+```
+
+Output:
+```text
+1) "added_todos"
+```
+
+## 3. Read the counter
+
+```redis
+GET added_todos
+```
+
+Output:
+```text
+"9002"
+```
+
+## 4. Set the counter to 9001
+
+```redis
+SET added_todos 9001
+```
+
+Output:
+```text
 OK
+```
 
-$ Invoke-RestMethod http://localhost:3000/statistics
-{"added_todos":9001}
+```redis
+GET added_todos
+```
 
-$ Invoke-RestMethod -Method Post -Uri http://localhost:3000/todos -ContentType application/json -Body '{"text":"Redis CLI test todo"}'
-{"text":"Redis CLI test todo","done":false,"_id":"6ae84b1df4fd1f7a867f0cce","__v":0}
+Output:
+```text
+"9001"
+```
 
-$ docker exec todo-backend-redis-1 redis-cli GET added_todos
-9002
+## 5. Verify through the application
 
-$ docker exec todo-backend-redis-1 redis-cli DEL added_todos
-1
+```powershell
+Invoke-RestMethod http://localhost:3000/statistics
+```
 
-$ Invoke-RestMethod http://localhost:3000/statistics
-{"added_todos":0}
+Output:
+```text
+added_todos
+-----------
+9001
+```
 
-$ Invoke-RestMethod -Method Post -Uri http://localhost:3000/todos -ContentType application/json -Body '{"text":"Redis CLI reset test todo"}'
-{"text":"Redis CLI reset test todo","done":false,"_id":"6ae84b1df4fd1f7a867f0cd0","__v":0}
+## 6. Create a todo using Postman
 
-$ docker exec todo-backend-redis-1 redis-cli GET added_todos
-1
+Method: POST
 
-$ Invoke-RestMethod http://localhost:3000/statistics
-{"added_todos":1}
+URL: http://localhost:3000/todos
+
+Body (raw JSON):
+```json
+{
+  "text": "Exercise 11 Redis CLI test"
+}
+```
+
+The todo was successfully created.
+
+Redis counter after creation:
+```redis
+GET added_todos
+```
+
+Output:
+```text
+"9002"
+```
+
+## 7. Delete the Redis key
+
+```redis
+DEL added_todos
+```
+
+Output:
+```text
+(integer) 1
+```
+
+Verify deletion:
+```redis
+GET added_todos
+```
+
+Output:
+```text
+(nil)
+```
+
+## 8. Verify counter after deleting the key
+
+Created another todo using Postman:
+
+```json
+{
+  "text": "Exercise 11 after deleting Redis key"
+}
+```
+
+Then checked Redis:
+
+```redis
+GET added_todos
+```
+
+Output:
+```text
+"1"
+```
+
+## Result
+
+Successfully accessed Redis using redis-cli, inspected keys, read and updated the counter, deleted the key, and verified that the counter starts again when a new todo is created.
