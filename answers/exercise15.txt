@@ -1,0 +1,7 @@
+Exercise 15: Frontend development environment
+
+Created docker-compose.dev.yml with a Node 22 Alpine container, source-code bind mount, and node_modules volume.
+Exposed port 5173 and configured VITE_BACKEND_URL to connect to the backend on the host.
+Enabled Vite polling in vite.config.js for file-change detection on Windows.
+Verified that todos load, new todos can be created, and source-code changes trigger automatic reloads.
+

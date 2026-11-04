@@ -1,10 +1,12 @@
 services:
-  todo-frontend:
-    build: .
+  app:
+    image: node:22-alpine
+    working_dir: /usr/src/app
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+    ports:
+      - "5173:5173"
     environment:
-      - VITE_BACKEND_URL=http://localhost:8080/api
-    ports: []
-    command: npm run dev -- --host 0.0.0.0
+      - VITE_BACKEND_URL=http://localhost:3000
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
