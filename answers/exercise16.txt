@@ -1,0 +1,8 @@
+Exercise 16: Run backend in development container
+
+Created dev.Dockerfile using Node.js and npm ci.
+Configured Docker Compose to run the backend with MongoDB and Redis.
+Mounted the backend source code as a volume.
+Used nodemon to monitor file changes and automatically restart the backend.
+Configured MongoDB and Redis connections using Docker Compose environment variables.
+Verified that the backend API returns todos and that nodemon restarts after file changes.
