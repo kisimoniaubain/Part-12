@@ -1,51 +1,85 @@
-$ docker ps --filter name=exercise7-mongo --format "{{.Names}} {{.Status}} {{.Ports}}"
-exercise7-mongo Up About a minute 0.0.0.0:27017->27017/tcp, [::]:27017->27017/tcp
+Full Stack Open - Part 12
+Exercise 8: Mongo CLI
 
-$ docker exec -it exercise7-mongo mongosh -u root -p example --authenticationDatabase admin
-Current Mongosh Log ID: 6ae846e1c0ec22ca3a1fdb17
-Connecting to: mongodb://<credentials>@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&authSource=admin&appName=mongosh+2.14.0
-Using MongoDB: 8.3.13
-Using Mongosh: 2.14.0
+Step 1: Start MongoDB
 
-test> show dbs
-admin   100.00 KiB
-config  12.00 KiB
-local   72.00 KiB
+Command:
+docker compose -f .\todo-app\todo-backend\docker-compose.dev.yml up -d mongo
 
-test> use the_database
-switched to db the_database
+Output:
+Container todo-backend-mongo-1 Running
 
-the_database> db.createCollection("todos")
-{ ok: 1 }
+Step 2: Confirm MongoDB is running
 
-the_database> show collections
-todos
+Command:
+docker ps
 
-the_database> db.todos.find({})
+Output:
+Container: todo-backend-mongo-1
+Image: mongo:8
+Status: Up
+Port: 27017
 
+Step 3: Open MongoDB CLI
 
-the_database> db.todos.insertOne({ text: "Increase the number of tools in my tool belt", done: false })
+Command:
+docker exec -it todo-backend-mongo-1 mongosh -u the_username -p the_password --authenticationDatabase the_database
+
+Output:
+Connected successfully to MongoDB 8.3.13.
+
+Step 4: Inspect the database
+
+Commands:
+show dbs
+use the_database
+show collections
+db.todos.find({})
+
+Output:
+Database: the_database
+Collection: todos
+
+Existing todos were displayed successfully.
+
+Step 5: Insert a new todo using Mongo CLI
+
+Command:
+db.todos.insertOne({
+  text: "Increase the number of tools in my tool belt",
+  done: false
+})
+
+Output:
 {
   acknowledged: true,
-  insertedId: ObjectId('6ae846e1c0ec22ca3a1fdb18')
+  insertedId: ObjectId('6aeaef79fe930ffca8df608a')
 }
 
-the_database> db.todos.find({})
-[
-  {
-    _id: ObjectId('6ae846e1c0ec22ca3a1fdb18'),
-    text: 'Increase the number of tools in my tool belt',
-    done: false
-  }
-]
+Step 6: Verify the inserted todo in MongoDB
 
-the_database> exit
+Command:
+db.todos.find({
+  text: "Increase the number of tools in my tool belt"
+})
 
-$ $env:MONGO_URL="mongodb://root:example@localhost:27017/the_database?authSource=admin"; $env:PORT="3001"; npm start
-> todo-express-backend@0.0.0 start
-> node ./bin/www
+Output:
+{
+  _id: ObjectId('6aeaef79fe930ffca8df608a'),
+  text: 'Increase the number of tools in my tool belt',
+  done: false
+}
 
-GET /todos 200 18.247 ms - 103
+Step 7: Verify the todo in the Express application
 
-$ Invoke-RestMethod http://localhost:3001/todos
-{"_id":"6ae846e1c0ec22ca3a1fdb18","text":"Increase the number of tools in my tool belt","done":false}
+Command:
+Invoke-RestMethod http://localhost:3000/todos | Format-Table text, done
+
+Output:
+text                                         done
+Exercise 7 completed successfully            True
+Learn about containers                       False
+Increase the number of tools in my tool belt False
+
+Result:
+Successfully inserted the required todo through MongoDB CLI and verified that it is also available through the Express application.
