@@ -1,0 +1,19 @@
+Full Stack Open - Part 12
+Exercise 7: Little bit of MongoDB coding
+
+Implementation:
+- Implemented middleware to find a todo by its MongoDB ID.
+- Implemented GET /todos/:id to retrieve an individual todo.
+- Implemented PUT /todos/:id to update the todo text and completion status.
+- Saved updated todo documents using Mongoose.
+- Exposed MongoDB port 27017 so the backend running outside Docker can connect to MongoDB.
+
+Verification:
+- MongoDB container started successfully.
+- GET /todos returned the todo list.
+- GET /todos/:id returned the requested todo.
+- PUT /todos/:id successfully updated the todo.
+- Follow-up GET confirmed that the updated values were saved.
+
+Result:
+The individual todo GET and PUT routes work with MongoDB. MongoDB runs in Docker while the Node.js backend runs outside Docker, as required.

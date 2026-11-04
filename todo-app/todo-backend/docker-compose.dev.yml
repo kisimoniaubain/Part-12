@@ -1,7 +1,8 @@
 services:
   mongo:
     image: mongo:8
-    ports: []
+    ports:
+      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: the_username
       MONGO_INITDB_ROOT_PASSWORD: the_password
