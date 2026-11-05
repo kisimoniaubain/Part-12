@@ -1,0 +1,10 @@
+Exercise 19: Connect todo-frontend with todo-backend
+
+- Connected the frontend and backend through the Nginx reverse proxy.
+- Set VITE_BACKEND_URL to /api.
+- Configured Docker Compose so only Nginx exposes a host port.
+- Removed direct host access to the frontend and backend.
+- Verified that all Todo application features work.
+- Verified API requests use http://localhost:8080/api/todos.
+- Verified frontend source changes take effect after reloading.
+- Confirmed direct access to http://localhost:3000/todos is unavailable.
