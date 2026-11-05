@@ -1,0 +1,12 @@
+﻿Exercise 20: Containerized production environment
+
+- Created a production docker-compose.yml with MongoDB, Redis, todo-backend, todo-frontend and Nginx.
+- Used production Dockerfiles instead of development Dockerfiles.
+- Built the frontend using npm run build.
+- Configured the backend to start using npm start.
+- Named the frontend image todo-front.
+- Named the backend image todo-backend.
+- Configured Nginx to serve the application on localhost:8080.
+- Routed frontend API requests through Nginx to the backend.
+- Exposed only the Nginx service port.
+- Verified that the production application loads and all Todo features work.

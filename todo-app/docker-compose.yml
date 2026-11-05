@@ -1,43 +1,13 @@
 services:
-  nginx:
-    image: nginx:1.21.6
-    ports:
-      - "8080:80"
-    depends_on:
-      - frontend
-  frontend:
-    build: ./todo-frontend
-    ports:
-      - "5173:5173"
-    environment:
-      - VITE_BACKEND_URL=http://localhost:8080/api
-    volumes:
-      - ./todo-frontend:/usr/src/app
-      - /usr/src/app/node_modules
-services:
-  app:
-    build: ./todo-frontend
-    ports:
-      - 4173:4173
-    environment:
-      - VITE_BACKEND_URL=http://localhost:8080/api
-    # Volumes removed for production
-    # command: npm run preview -- --host 0.0.0.0
-
-  backend:
-    build: ./todo-backend
-    ports:
-      - 3000:3000
-    environment:
-      - REDIS_URL=redis://redis:6379
-      - MONGO_URL=mongodb://mongo:27017/todo_db
-
   mongo:
     image: mongo:8
-    # Removed MONGO_INITDB_ROOT_USERNAME and MONGO_INITDB_ROOT_PASSWORD for simpler setup
-    # MONGO_INITDB_DATABASE is still set to todo_db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: the_username
+      MONGO_INITDB_ROOT_PASSWORD: the_password
+      MONGO_INITDB_DATABASE: the_database
     volumes:
-      - mongo-data:/docker-entrypoint-initdb.d
+      - ./todo-backend/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - mongo-data:/data/db
 
   redis:
     image: redis:latest
@@ -45,15 +15,35 @@ services:
     volumes:
       - redis-data:/data
 
+  todo-backend:
+    image: todo-backend
+    build:
+      context: ./todo-backend
+      dockerfile: Dockerfile
+    environment:
+      REDIS_URL: redis://redis:6379
+      MONGO_URL: mongodb://the_username:the_password@mongo:27017/the_database?authSource=the_database
+    depends_on:
+      - mongo
+      - redis
+
+  todo-frontend:
+    image: todo-front
+    build:
+      context: ./todo-frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - todo-backend
+
   nginx:
-    image: nginx:1.29
+    image: nginx:alpine
     ports:
-      - 8080:80
+      - "8080:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - app
-      - backend
+      - todo-frontend
+      - todo-backend
 
 volumes:
   mongo-data:
