@@ -1,0 +1,8 @@
+Exercise 18: Nginx reverse proxy to todo-backend
+
+- Added the todo-backend service to docker-compose.dev.yml.
+- Connected the backend to MongoDB and Redis.
+- Updated nginx.dev.conf with a new /api/ location.
+- Configured proxy_pass with a trailing slash to remove the /api/ prefix.
+- Verified that http://localhost:8080/api/todos returns todo records as JSON.
+- Confirmed that Nginx successfully forwards requests to the backend.
