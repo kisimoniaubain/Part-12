@@ -1,0 +1,11 @@
+Exercise 17: Nginx reverse proxy
+
+Configured Nginx as a reverse proxy in front of the Todo application.
+
+- Created docker-compose.dev.yml to connect MongoDB, Redis, backend, frontend, and Nginx.
+- Created nginx.dev.conf to forward /todos and /statistics requests to the backend.
+- Configured Nginx to forward other requests to the frontend.
+- Added the frontend development Dockerfile.
+- Verified that the Todo application loads through http://localhost:8080.
+- Verified that todos can be retrieved and added through the application.
+- Verified the /statistics endpoint through Nginx.
