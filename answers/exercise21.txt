@@ -1,0 +1,8 @@
+Exercise 21: The smoke test
+
+- Started the production Docker Compose environment.
+- Installed dependencies and Playwright browsers in todo-tests.
+- Ran the Playwright end-to-end tests locally.
+- Verified that all 7 tests passed.
+- Updated GitHub Actions to run E2E tests on pushes to main and master.
+- Configured test reports and container logs to be uploaded or displayed on failure.
